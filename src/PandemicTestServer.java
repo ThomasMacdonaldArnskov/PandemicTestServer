@@ -37,10 +37,6 @@ class ClientServiceThread extends Thread {
         this.database = database;
     }
 
-    public void writeBooltoDatabase(boolean bool) {
-
-    }
-
     public void run() {
 
 
@@ -57,10 +53,13 @@ class ClientServiceThread extends Thread {
                     running = false;
                     System.out.print("Stopping client thread for client : " + clientID);
                 }
+
+                //ASSIGN PLAYER ID
                 if (clientCommand.equals("ASSIGN_PLAYER_ID")) {
-                    clientCommand = "" + clientID + "";
+                    clientCommand = "" + database.getPlayerID()+ "";
                     out.println(clientCommand);
                     out.flush();
+                    database.setNextPlayerID(1);
                 }
 
 
@@ -70,14 +69,12 @@ class ClientServiceThread extends Thread {
                     clientCommand = "false";
                     tmpBool = Boolean.valueOf(clientCommand);
                     database.setP1(tmpBool);
-                    //System.out.println("SET: Value of p1 variable is now " +p1+ " on the server");
                     out.println(clientCommand);
                     out.flush();
                 } else if (clientCommand.equals("SET_PLAYER_STATUS: true 0")) {
                     clientCommand = "true";
                     tmpBool = Boolean.valueOf(clientCommand);
                     database.setP1(tmpBool);
-                    //System.out.println("Value of p1 variable is now" +p1+ " on the server");
                     out.println(clientCommand);
                     out.flush();
                 } else if (clientCommand.equals("SET_PLAYER_STATUS: false 1")) {
@@ -122,10 +119,7 @@ class ClientServiceThread extends Thread {
 
                 //GET PLAYER STATUS
                 if (clientCommand.equals("GET_PLAYER_STATUS: 0")) {
-                    //System.out.println("GET BEFORE COMMAND: Value of p1 variable is now " +database.getP1()+ " on the server");
                     clientCommand = String.valueOf( database.getP1());
-                    //System.out.println("GET AFTER COMMAND: Value of p1 variable is now " +database.getP1()+ " on the server");
-
                     out.println(clientCommand);
                     out.flush();
                 }

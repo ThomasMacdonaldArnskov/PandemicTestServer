@@ -3,14 +3,26 @@
  */
 public class Database {
 
-    boolean p1,p2,p3,p4;
+    private boolean p1,p2,p3,p4;
+    private int playerID;
 
     public Database() {
+
+        playerID = 0;
 
         p1 = false;
         p2 = false;
         p3 = false;
         p4 = false;
+
+    }
+
+    public int getPlayerID() { return playerID; }
+
+    public void setPlayerID(int i) { this.playerID = i; }
+
+    public void setNextPlayerID(int i) {
+            this.playerID += i;
     }
 
     public boolean getP2() {
