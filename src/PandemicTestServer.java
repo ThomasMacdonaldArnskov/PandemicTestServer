@@ -10,13 +10,14 @@ public class PandemicTestServer {
     public static void main(String[] args) throws IOException {
 
         Database database = new Database();
+        Role role = new Role();
 
         ServerSocket m_ServerSocket = new ServerSocket(1234);
         System.out.println("Opening Socket 1234");
         int id = 0;
         while (true) {
             Socket clientSocket = m_ServerSocket.accept();
-            ClientServiceThread cliThread = new ClientServiceThread(clientSocket, id++, database);
+            ClientServiceThread cliThread = new ClientServiceThread(clientSocket, id++, database, role);
             cliThread.start();
         }
     }
@@ -29,19 +30,21 @@ class ClientServiceThread extends Thread {
 
     boolean tmpBool;
     Database database;
+    Role role;
 
 
-    ClientServiceThread(Socket s, int i, Database database) {
+    ClientServiceThread(Socket s, int i, Database database, Role role) {
         clientSocket = s;
         clientID = i;
         this.database = database;
+        this.role = role;
     }
 
     public void run() {
 
 
-        System.out.println("Accepted Client : ID - " + clientID + " : Address - "
-                + clientSocket.getInetAddress().getHostName());
+        //System.out.println("Accepted Client : ID - " + clientID + " : Address - "
+        //        + clientSocket.getInetAddress().getHostName());
         try {
 
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -115,8 +118,6 @@ class ClientServiceThread extends Thread {
                     out.flush();
                 }
 
-
-
                 //GET PLAYER STATUS
                 if (clientCommand.equals("GET_PLAYER_STATUS: 0")) {
                     clientCommand = String.valueOf( database.getP1());
@@ -138,6 +139,77 @@ class ClientServiceThread extends Thread {
                     out.println(clientCommand);
                     out.flush();
                 }
+
+
+
+                //SET ROLE ON SERVER
+
+                if (clientCommand.equals("SET_PLAYER_ROLE: 0")) {
+                    role.assignRole(0);
+                    clientCommand = String.valueOf(role.getPlayerOneRole());
+                    out.println(clientCommand);
+                    out.flush();
+                }
+                if (clientCommand.equals("SET_PLAYER_ROLE: 1")) {
+                    role.assignRole(1);
+                    clientCommand = String.valueOf(role.getPlayerTwoRole());
+                    out.println(clientCommand);
+                    out.flush();
+                }
+                if (clientCommand.equals("SET_PLAYER_ROLE: 2")) {
+                    role.assignRole(2);
+                    clientCommand = String.valueOf(role.getPlayerThreeRole());
+                    out.println(clientCommand);
+                    out.flush();
+                } if (clientCommand.equals("SET_PLAYER_ROLE: 3")) {
+                    role.assignRole(3);
+                    clientCommand = String.valueOf(role.getPlayerFourRole());
+                    out.println(clientCommand);
+                    out.flush();
+                }
+
+
+                //GET ROLE ON SERVER
+                if (clientCommand.equals("GET_PLAYER_ROLE: 0")) {
+                    clientCommand = String.valueOf(role.getPlayerOneRole());
+                    out.println(clientCommand);
+                    out.flush();
+                }
+                if (clientCommand.equals("GET_PLAYER_ROLE: 1")) {
+                    clientCommand = String.valueOf(role.getPlayerTwoRole());
+                    out.println(clientCommand);
+                    out.flush();
+                }
+                if (clientCommand.equals("GET_PLAYER_ROLE: 2")) {
+                    clientCommand = String.valueOf(role.getPlayerThreeRole());
+                    out.println(clientCommand);
+                    out.flush();
+                } if (clientCommand.equals("GET_PLAYER_ROLE: 3")) {
+                    clientCommand = String.valueOf(role.getPlayerFourRole());
+                    out.println(clientCommand);
+                    out.flush();
+                }
+
+                //GAME STATE CHANGERS
+                if (clientCommand.equals("BEGIN_GAME")) {
+                    database.setGameState(2);
+                }
+                if (clientCommand.equals("CURRENT_GAME_STATE")) {
+                    clientCommand = String.valueOf(database.getGameState());
+                    out.println(clientCommand);
+                    out.flush();
+                }
+
+                //Animation Control
+                if (clientCommand.equals("SET_ANIMATION_TRUE")) {
+                    database.setAnimationControl(true);
+                }
+                if (clientCommand.equals("GET_ANIMATION_STATUS")) {
+                    clientCommand = String.valueOf(database.getAnimationControl());
+                    out.println(clientCommand);
+                    out.flush();
+                }
+
 
 
                 else {

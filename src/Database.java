@@ -3,17 +3,20 @@
  */
 public class Database {
 
-    private boolean p1,p2,p3,p4;
-    private int playerID;
+    private boolean p1,p2,p3,p4, animationControl;
+    private int playerID, gameState;
 
     public Database() {
 
         playerID = 0;
+        gameState = 1;
 
         p1 = false;
         p2 = false;
         p3 = false;
         p4 = false;
+
+        animationControl = false;
 
     }
 
@@ -55,5 +58,17 @@ public class Database {
 
     public void setP4(boolean p4) {
         this.p4 = p4;
+    }
+
+    public void setGameState(int gameState) { this.gameState = gameState; }
+
+    public int getGameState() { return gameState; }
+
+    public void setAnimationControl(boolean animationControl) {
+        this.animationControl = animationControl;
+    }
+
+    public boolean getAnimationControl() {
+        return animationControl;
     }
 }
