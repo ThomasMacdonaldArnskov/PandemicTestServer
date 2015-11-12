@@ -1,5 +1,6 @@
 /**
  * Created by TMA on 07-11-2015.
+ *
  */
 public class Database {
 
@@ -59,10 +60,6 @@ public class Database {
     public void setP4(boolean p4) {
         this.p4 = p4;
     }
-
-    public void setGameState(int gameState) { this.gameState = gameState; }
-
-    public int getGameState() { return gameState; }
 
     public void setAnimationControl(boolean animationControl) {
         this.animationControl = animationControl;

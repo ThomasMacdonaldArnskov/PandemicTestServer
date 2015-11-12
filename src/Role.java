@@ -2,11 +2,11 @@ import java.util.Random;
 
 /**
  * Created by TMA on 08-11-2015.
+ *
  */
 public class Role {
 
     int playerOneRole, playerTwoRole, playerThreeRole, playerFourRole;
-    int[] roleId;
 
     public Role() {
 

@@ -4,6 +4,7 @@ import java.net.Socket;
 
 /**
  * Created by TMA on 06-11-2015.
+ *
  */
 public class PandemicTestServer {
 
@@ -57,12 +58,16 @@ class ClientServiceThread extends Thread {
                     System.out.print("Stopping client thread for client : " + clientID);
                 }
 
-                //ASSIGN PLAYER ID
+                //SET PLAYER ID
                 if (clientCommand.equals("ASSIGN_PLAYER_ID")) {
                     clientCommand = "" + database.getPlayerID()+ "";
                     out.println(clientCommand);
                     out.flush();
                     database.setNextPlayerID(1);
+                }
+                //GET PLAYER ID
+                if (clientCommand.equals("GET_PLAYER_ID")) {
+                    clientCommand = "" + database.getPlayerID() + "";
                 }
 
 
@@ -186,16 +191,6 @@ class ClientServiceThread extends Thread {
                     out.flush();
                 } if (clientCommand.equals("GET_PLAYER_ROLE: 3")) {
                     clientCommand = String.valueOf(role.getPlayerFourRole());
-                    out.println(clientCommand);
-                    out.flush();
-                }
-
-                //GAME STATE CHANGERS
-                if (clientCommand.equals("BEGIN_GAME")) {
-                    database.setGameState(2);
-                }
-                if (clientCommand.equals("CURRENT_GAME_STATE")) {
-                    clientCommand = String.valueOf(database.getGameState());
                     out.println(clientCommand);
                     out.flush();
                 }
